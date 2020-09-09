@@ -1,0 +1,34 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: GATEWAY-SERVER
+  cloud:
+    gateway:
+      routes:
+        - id: authentication-server
+          uri: lb://AUTHENTICATION-SERVER
+          predicates:
+            - Path=/auth/**
+
+        - id: movie-catalog-service
+          uri: lb://MOVIE-CATALOG-SERVICE
+          predicates:
+            - Path=/catalog/**
+
+        - id: movie-info
+          uri: lb://MOVIE-INFO-SERVIVE
+          predicates:
+            - Path=/movies/**
+#          filters:
+#            - AddRequestHeader=movie-header-request, first-request-header
+#            - AddResponseHeader=movie-header-response, first-response-header
+
+        - id: ratings-data
+          uri: lb://RATINGS-DATA-SERVICE
+          predicates:
+            - Path=/ratingdata/**
+#          filters:
+#            - AddRequestHeader=rating-header-request, second-request-header
+#            - AddResponseHeader=rating-header-response, second-response-header
